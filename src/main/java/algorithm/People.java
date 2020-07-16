@@ -2,7 +2,7 @@ package algorithm;
 
 import java.util.Date;
 
-public class People {
+public class People implements Comparable<People> {
 	private String name;
 	private Date birthDate;
 
@@ -17,6 +17,11 @@ public class People {
 	}
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	@Override
+	public int compareTo(People p) {
+		return (int) (this.birthDate.getTime() - p.getBirthDate().getTime());
 	}
 }
 

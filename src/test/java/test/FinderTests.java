@@ -1,10 +1,7 @@
 package test;
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,9 +35,8 @@ public class FinderTests {
 		List<People> list = new ArrayList<People>();
 		Finder finder = new Finder(list);
 
-		Pair result = finder.Find(FindCondition.Closest);
+		Pair result = finder.find(FindCondition.Closest);
 		assertEquals(null, result.personA);
-
 		assertEquals(null, result.personB);
 	}
 
@@ -51,7 +47,7 @@ public class FinderTests {
 
 		Finder finder = new Finder(list);
 
-		Pair result = finder.Find(FindCondition.Closest);
+		Pair result = finder.find(FindCondition.Closest);
 
 		assertEquals(null, result.personA);
 		assertEquals(null, result.personB);
@@ -64,7 +60,7 @@ public class FinderTests {
 		list.add(greg);
 		Finder finder = new Finder(list);
 
-		Pair result = finder.Find(FindCondition.Closest);
+		Pair result = finder.find(FindCondition.Closest);
 
 		assertEquals(sue, result.personA);
 		assertEquals(greg, result.personB);
@@ -78,7 +74,7 @@ public class FinderTests {
 
 		Finder finder = new Finder(list);
 
-		Pair result = finder.Find(FindCondition.Furthest);
+		Pair result = finder.find(FindCondition.Furthest);
 
 		assertEquals(greg, result.personA);
 		assertEquals(mike, result.personB);
@@ -93,7 +89,7 @@ public class FinderTests {
 		list.add(greg);
 		Finder finder = new Finder(list);
 
-		Pair result = finder.Find(FindCondition.Furthest);
+		Pair result = finder.find(FindCondition.Furthest);
 
 		assertEquals(sue, result.personA);
 		assertEquals(sarah, result.personB);
@@ -109,10 +105,43 @@ public class FinderTests {
 
 		Finder finder = new Finder(list);
 
-		Pair result = finder.Find(FindCondition.Closest);
+		Pair result = finder.find(FindCondition.Closest);
 
 		assertEquals(sue, result.personA);
 		assertEquals(greg, result.personB);
 	}
+
+	@Test
+	public void Return_EmptyList_For_EmptyList () {
+		List<People> people = new ArrayList<People>();
+		Finder finder = new Finder(people);
+
+		List<People> peopleByAge = finder.sortGroupByAge();
+		assertEquals(Collections.emptyList(), peopleByAge);
+	};
+
+	@Test
+	public void Return_SingleList_For_One_People () {
+		List<People> people = new ArrayList<People>();
+		people.add(sue);
+		Finder finder = new Finder(people);
+
+		List<People> peopleByAge = finder.sortGroupByAge();
+		assertEquals(1, peopleByAge.size());
+		assertEquals(sue, peopleByAge.get(0));
+	};
+
+	@Test
+	public void Return_List_Sorted_By_Age_Ascending_For_Two_People () {
+		List<People> people = new ArrayList<People>();
+		people.add(sue);
+		people.add(greg);
+		Finder finder = new Finder(people);
+
+		List<People> peopleByAge = finder.sortGroupByAge();
+		assertEquals(2, peopleByAge.size());
+		assertEquals(greg, peopleByAge.get(0));
+		assertEquals(sue, peopleByAge.get(1));
+	};
 
 }
