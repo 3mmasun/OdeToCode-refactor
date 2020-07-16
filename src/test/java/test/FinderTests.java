@@ -36,8 +36,8 @@ public class FinderTests {
 		Finder finder = new Finder(list);
 
 		Pair result = finder.find(FindCondition.Closest);
-		assertEquals(null, result.personA);
-		assertEquals(null, result.personB);
+		assertEquals(null, result.youngerPerson);
+		assertEquals(null, result.olderPerson);
 	}
 
 	@Test
@@ -49,8 +49,8 @@ public class FinderTests {
 
 		Pair result = finder.find(FindCondition.Closest);
 
-		assertEquals(null, result.personA);
-		assertEquals(null, result.personB);
+		assertEquals(null, result.youngerPerson);
+		assertEquals(null, result.olderPerson);
 	}
 
 	@Test
@@ -62,8 +62,8 @@ public class FinderTests {
 
 		Pair result = finder.find(FindCondition.Closest);
 
-		assertEquals(sue, result.personA);
-		assertEquals(greg, result.personB);
+		assertEquals(sue, result.youngerPerson);
+		assertEquals(greg, result.olderPerson);
 	}
 
 	@Test
@@ -76,8 +76,8 @@ public class FinderTests {
 
 		Pair result = finder.find(FindCondition.Furthest);
 
-		assertEquals(greg, result.personA);
-		assertEquals(mike, result.personB);
+		assertEquals(greg, result.youngerPerson);
+		assertEquals(mike, result.olderPerson);
 	}
 
 	@Test
@@ -91,8 +91,8 @@ public class FinderTests {
 
 		Pair result = finder.find(FindCondition.Furthest);
 
-		assertEquals(sue, result.personA);
-		assertEquals(sarah, result.personB);
+		assertEquals(sue, result.youngerPerson);
+		assertEquals(sarah, result.olderPerson);
 	}
 
 	@Test
@@ -107,8 +107,8 @@ public class FinderTests {
 
 		Pair result = finder.find(FindCondition.Closest);
 
-		assertEquals(sue, result.personA);
-		assertEquals(greg, result.personB);
+		assertEquals(sue, result.youngerPerson);
+		assertEquals(greg, result.olderPerson);
 	}
 
 	@Test

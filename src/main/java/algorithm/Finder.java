@@ -44,13 +44,13 @@ public class Finder {
 			for (int j = i + 1; j < groupOfPeople.size(); j++) {
 				Pair pair = new Pair();
 				if (groupOfPeople.get(i).getBirthDate().getTime() < groupOfPeople.get(j).getBirthDate().getTime()) {
-					pair.personA = groupOfPeople.get(i);
-					pair.personB = groupOfPeople.get(j);
+					pair.youngerPerson = groupOfPeople.get(i);
+					pair.olderPerson = groupOfPeople.get(j);
 				} else {
-					pair.personA = groupOfPeople.get(j);
-					pair.personB = groupOfPeople.get(i);
+					pair.youngerPerson = groupOfPeople.get(j);
+					pair.olderPerson = groupOfPeople.get(i);
 				}
-				pair.daysApart = pair.personB.getBirthDate().getTime() - pair.personA.getBirthDate().getTime();
+				pair.daysApart = pair.olderPerson.getBirthDate().getTime() - pair.youngerPerson.getBirthDate().getTime();
 				result.add(pair);
 			}
 		}
