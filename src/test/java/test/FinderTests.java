@@ -2,105 +2,106 @@ package test;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import algorithm.F;
-import algorithm.FT;
+import algorithm.Pair;
+import algorithm.FindCondition;
 import algorithm.Finder;
-import algorithm.Thing;
+import algorithm.People;
 
 public class FinderTests {
 
-	Thing sue = new Thing();
-	Thing greg = new Thing();
-	Thing sarah = new Thing();
-	Thing mike = new Thing();
+	People sue = new People();
+	People greg = new People();
+	People sarah = new People();
+	People mike = new People();
 
 	@Before
 	public void setup() {
-		sue.name = "Sue";
-		sue.birthDate = new Date(50, 0, 1);
-		greg.name = "Greg";
-		greg.birthDate = new Date(52, 5, 1);
-		sarah.name = "Sarah";
-		sarah.birthDate = new Date(82, 0, 1);
-		mike.name = "Mike";
-		mike.birthDate = new Date(79, 0, 1);
+		sue.setName("Sue");
+		sue.setBirthDate(new Date(50, Calendar.JANUARY, 1));
+		greg.setName("Greg");
+		greg.setBirthDate(new Date(52, Calendar.JUNE, 1));
+		sarah.setName("Sarah");
+		sarah.setBirthDate(new Date(82, Calendar.JANUARY, 1));
+		mike.setName("Mike");
+		mike.setBirthDate(new Date(79, Calendar.JANUARY, 1));
 	}
 
 	@Test
 	public void Returns_Empty_Results_When_Given_Empty_List() {
-		List<Thing> list = new ArrayList<Thing>();
+		List<People> list = new ArrayList<People>();
 		Finder finder = new Finder(list);
 
-		F result = finder.Find(FT.One);
-		assertEquals(null, result.P1);
+		Pair result = finder.Find(FindCondition.Closest);
+		assertEquals(null, result.personA);
 
-		assertEquals(null, result.P2);
+		assertEquals(null, result.personB);
 	}
 
 	@Test
 	public void Returns_Empty_Results_When_Given_One_Person() {
-		List<Thing> list = new ArrayList<Thing>();
+		List<People> list = new ArrayList<People>();
 		list.add(sue);
 
 		Finder finder = new Finder(list);
 
-		F result = finder.Find(FT.One);
+		Pair result = finder.Find(FindCondition.Closest);
 
-		assertEquals(null, result.P1);
-		assertEquals(null, result.P2);
+		assertEquals(null, result.personA);
+		assertEquals(null, result.personB);
 	}
 
 	@Test
 	public void Returns_Closest_Two_For_Two_People() {
-		List<Thing> list = new ArrayList<Thing>();
+		List<People> list = new ArrayList<People>();
 		list.add(sue);
 		list.add(greg);
 		Finder finder = new Finder(list);
 
-		F result = finder.Find(FT.One);
+		Pair result = finder.Find(FindCondition.Closest);
 
-		assertEquals(sue, result.P1);
-		assertEquals(greg, result.P2);
+		assertEquals(sue, result.personA);
+		assertEquals(greg, result.personB);
 	}
 
 	@Test
 	public void Returns_Furthest_Two_For_Two_People() {
-		List<Thing> list = new ArrayList<Thing>();
+		List<People> list = new ArrayList<People>();
 		list.add(mike);
 		list.add(greg);
 
 		Finder finder = new Finder(list);
 
-		F result = finder.Find(FT.Two);
+		Pair result = finder.Find(FindCondition.Furthest);
 
-		assertEquals(greg, result.P1);
-		assertEquals(mike, result.P2);
+		assertEquals(greg, result.personA);
+		assertEquals(mike, result.personB);
 	}
 
 	@Test
 	public void Returns_Furthest_Two_For_Four_People() {
-		List<Thing> list = new ArrayList<Thing>();
+		List<People> list = new ArrayList<People>();
 		list.add(sue);
 		list.add(sarah);
 		list.add(mike);
 		list.add(greg);
 		Finder finder = new Finder(list);
 
-		F result = finder.Find(FT.Two);
+		Pair result = finder.Find(FindCondition.Furthest);
 
-		assertEquals(sue, result.P1);
-		assertEquals(sarah, result.P2);
+		assertEquals(sue, result.personA);
+		assertEquals(sarah, result.personB);
 	}
 
 	@Test
 	public void Returns_Closest_Two_For_Four_People() {
-		List<Thing> list = new ArrayList<Thing>();
+		List<People> list = new ArrayList<People>();
 		list.add(sue);
 		list.add(sarah);
 		list.add(mike);
@@ -108,10 +109,10 @@ public class FinderTests {
 
 		Finder finder = new Finder(list);
 
-		F result = finder.Find(FT.One);
+		Pair result = finder.Find(FindCondition.Closest);
 
-		assertEquals(sue, result.P1);
-		assertEquals(greg, result.P2);
+		assertEquals(sue, result.personA);
+		assertEquals(greg, result.personB);
 	}
 
 }

@@ -3,45 +3,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Finder {
-	private final List<Thing> _p;
+	private final List<People> groupOfPeople;
 
-	public Finder(List<Thing> p) {
-		_p = p;
+	public Finder(List<People> p) {
+		groupOfPeople = p;
 	}
 
-	public F Find(FT ft) {
-		List<F> tr = new ArrayList<F>();
+	public Pair Find(FindCondition findCondition) {
+		List<Pair> resultPair = new ArrayList<Pair>();
 
-		for (int i = 0; i < _p.size() - 1; i++) {
-			for (int j = i + 1; j < _p.size(); j++) {
-				F r = new F();
-				if (_p.get(i).birthDate.getTime() < _p.get(j).birthDate.getTime()) {
-					r.P1 = _p.get(i);
-					r.P2 = _p.get(j);
+		for (int i = 0; i < groupOfPeople.size() - 1; i++) {
+			for (int j = i + 1; j < groupOfPeople.size(); j++) {
+				Pair pair = new Pair();
+				if (groupOfPeople.get(i).getBirthDate().getTime() < groupOfPeople.get(j).getBirthDate().getTime()) {
+					pair.personA = groupOfPeople.get(i);
+					pair.personB = groupOfPeople.get(j);
 				} else {
-					r.P1 = _p.get(j);
-					r.P2 = _p.get(i);
+					pair.personA = groupOfPeople.get(j);
+					pair.personB = groupOfPeople.get(i);
 				}
-				r.D = r.P2.birthDate.getTime() - r.P1.birthDate.getTime();
-				tr.add(r);
+				pair.daysApart = pair.personB.getBirthDate().getTime() - pair.personA.getBirthDate().getTime();
+				resultPair.add(pair);
 			}
 		}
 
-		if (tr.size() < 1) {
-			return new F();
+		if (resultPair.size() < 1) {
+			return new Pair();
 		}
 
-		F answer = tr.get(0);
-		for (F result : tr) {
-			switch (ft) {
-				case One :
-					if (result.D < answer.D) {
+		Pair answer = resultPair.get(0);
+		for (Pair result : resultPair) {
+			switch (findCondition) {
+				case Closest:
+					if (result.daysApart < answer.daysApart) {
 						answer = result;
 					}
 					break;
 
-				case Two :
-					if (result.D > answer.D) {
+				case Furthest:
+					if (result.daysApart > answer.daysApart) {
 						answer = result;
 					}
 					break;

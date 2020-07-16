@@ -2,9 +2,9 @@ package algorithm;
 
 import java.util.Date;
 
-public class Thing {
-	public String name;
-	public Date birthDate;
+public class People {
+	private String name;
+	private Date birthDate;
 
 	public String getName() {
 		return name;
