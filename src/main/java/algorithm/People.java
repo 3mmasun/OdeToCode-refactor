@@ -1,14 +1,13 @@
 package algorithm;
 
+import java.util.Comparator;
 import java.util.Date;
 
-public class People implements Comparable<People> {
+public class People {
 	private String name;
 	private Date birthDate;
 
-	public String getName() {
-		return name;
-	}
+	public String getName() {return name;}
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -19,9 +18,5 @@ public class People implements Comparable<People> {
 		this.birthDate = birthDate;
 	}
 
-	@Override
-	public int compareTo(People p) {
-		return (int) (this.birthDate.getTime() - p.getBirthDate().getTime());
-	}
 }
 

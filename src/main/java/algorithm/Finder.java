@@ -1,66 +1,59 @@
 package algorithm;
-import java.util.ArrayList;
+
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Finder {
-	private final List<People> groupOfPeople;
+    private final List<People> groupOfPeople;
 
-	public Finder(List<People> p) {
-		groupOfPeople = p;
-	}
+    public Finder(List<People> p) {
+        groupOfPeople = p;
+    }
 
-	public Pair find(FindCondition findCondition) {
+    public Pair find(FindCondition findCondition) {
+        if (groupOfPeople.size() < 2) return new Pair();
 
-		if (groupOfPeople.size() < 2) return new Pair();
+        List<People> groupSortedByAge = sortGroupByAge();
+        Pair closest = compareEachPair(groupSortedByAge);
 
-		List<Pair> resultPair = compareEachPair();
-		List<People> groupSortedByAge = sortGroupByAge();
+        switch (findCondition) {
+            case Closest:
+                return closest;
+            case Furthest:
+                Pair pair = new Pair();
+                pair.personB = groupSortedByAge.get(0);
+                pair.personA = groupSortedByAge.get(groupSortedByAge.size()-1);
+                pair.durationApart = groupSortedByAge.get(groupSortedByAge.size()-1).getBirthDate().getTime() - groupSortedByAge.get(0).getBirthDate().getTime();
+                return pair;
+            default:
+                return new Pair();
+        }
+    }
 
-		Pair answer = resultPair.get(0);
-		for (Pair result : resultPair) {
-			switch (findCondition) {
-				case Closest:
-					if (result.daysApart < answer.daysApart) {
-						answer = result;
-					}
-					break;
+    private Pair compareEachPair(List<People> groupSortedByAge) {
+        long minDuration = Long.MAX_VALUE;
+        Pair pair = new Pair();
 
-				case Furthest:
-					if (result.daysApart > answer.daysApart) {
-						answer = result;
-					}
-					break;
-			}
-		}
+        for (int i = 0; i < groupSortedByAge.size() - 1; i++) {
+            People withEarlierBirthday = groupSortedByAge.get(i);
+            People withLaterBirthday = groupSortedByAge.get(i + 1);
+            long durationApart = Math.abs(withLaterBirthday.getBirthDate().getTime() - withEarlierBirthday.getBirthDate().getTime());
+            if (durationApart < minDuration) {
+                minDuration = durationApart;
+                pair.personB = withEarlierBirthday;
+                pair.personA = withLaterBirthday;
+                pair.durationApart = durationApart;
+            }
+        }
+        return pair;
+    }
 
-		return answer;
-	}
+    public List<People> sortGroupByAge() {
+        if (groupOfPeople.size() == 0) return Collections.emptyList();
+        groupOfPeople.sort(Comparator
+                .comparing(p -> p.getBirthDate().getTime(), Comparator.naturalOrder()));
+        return List.copyOf(groupOfPeople);
+    }
 
-	private List<Pair> compareEachPair() {
-		List<Pair> result = new ArrayList<Pair>();
-
-		for (int i = 0; i < groupOfPeople.size() - 1; i++) {
-			for (int j = i + 1; j < groupOfPeople.size(); j++) {
-				Pair pair = new Pair();
-				if (groupOfPeople.get(i).getBirthDate().getTime() < groupOfPeople.get(j).getBirthDate().getTime()) {
-					pair.youngerPerson = groupOfPeople.get(i);
-					pair.olderPerson = groupOfPeople.get(j);
-				} else {
-					pair.youngerPerson = groupOfPeople.get(j);
-					pair.olderPerson = groupOfPeople.get(i);
-				}
-				pair.daysApart = pair.olderPerson.getBirthDate().getTime() - pair.youngerPerson.getBirthDate().getTime();
-				result.add(pair);
-			}
-		}
-
-		return result;
-	}
-
-	public List<People> sortGroupByAge() {
-		if (groupOfPeople.size() == 0) return Collections.emptyList();
-		Collections.sort(groupOfPeople);
-		return List.copyOf(groupOfPeople);
-	}
 }

@@ -1,6 +1,6 @@
 package algorithm;
 public class Pair {
-	public People youngerPerson;
-	public People olderPerson;
-	public long daysApart;
+	public People personA;
+	public People personB;
+	public long durationApart;
 }
