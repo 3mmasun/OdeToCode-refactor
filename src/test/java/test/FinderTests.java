@@ -36,8 +36,8 @@ public class FinderTests {
 		Finder finder = new Finder(list);
 
 		Pair result = finder.find(FindCondition.Closest);
-		assertEquals(null, result.personA);
-		assertEquals(null, result.personB);
+		assertEquals(null, result.getPersonA());
+		assertEquals(null, result.getPersonB());
 	}
 
 	@Test
@@ -49,8 +49,8 @@ public class FinderTests {
 
 		Pair result = finder.find(FindCondition.Closest);
 
-		assertEquals(null, result.personA);
-		assertEquals(null, result.personB);
+		assertEquals(null, result.getPersonA());
+		assertEquals(null, result.getPersonB());
 	}
 
 	@Test
@@ -62,8 +62,8 @@ public class FinderTests {
 
 		Pair result = finder.find(FindCondition.Closest);
 
-		assertEquals(sue, result.personB);
-		assertEquals(greg, result.personA);
+		assertEquals(greg, result.getPersonB());
+		assertEquals(sue, result.getPersonA());
 	}
 
 	@Test
@@ -76,8 +76,8 @@ public class FinderTests {
 
 		Pair result = finder.find(FindCondition.Furthest);
 
-		assertEquals(mike, result.personA);
-		assertEquals(greg, result.personB);
+		assertEquals(greg, result.getPersonA());
+		assertEquals(mike, result.getPersonB());
 	}
 
 	@Test
@@ -88,12 +88,11 @@ public class FinderTests {
 		list.add(mike);
 		list.add(greg);
 		Finder finder = new Finder(list);
-		// sue greg mike sarah
 
 		Pair result = finder.find(FindCondition.Furthest);
 
-		assertEquals(sarah, result.personA);
-		assertEquals(sue, result.personB);
+		assertEquals(sue, result.getPersonA());
+		assertEquals(sarah, result.getPersonB());
 	}
 
 	@Test
@@ -108,8 +107,8 @@ public class FinderTests {
 
 		Pair result = finder.find(FindCondition.Closest);
 
-		assertEquals(greg, result.personA);
-		assertEquals(sue, result.personB);
+		assertEquals(sue, result.getPersonA());
+		assertEquals(greg, result.getPersonB());
 	}
 
 	@Test

@@ -1,6 +1,5 @@
 package algorithm;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -15,42 +14,35 @@ public class Finder {
         if (groupOfPeople.size() < 2) return new Pair();
 
         List<People> groupSortedByAge = sortGroupByAge();
-        Pair closest = compareEachPair(groupSortedByAge);
-
         switch (findCondition) {
             case Closest:
-                return closest;
+                return findClosestPair(groupSortedByAge);
             case Furthest:
-                Pair pair = new Pair();
-                pair.personB = groupSortedByAge.get(0);
-                pair.personA = groupSortedByAge.get(groupSortedByAge.size()-1);
-                pair.durationApart = groupSortedByAge.get(groupSortedByAge.size()-1).getBirthDate().getTime() - groupSortedByAge.get(0).getBirthDate().getTime();
-                return pair;
+                return findFurthestPair(groupSortedByAge);
             default:
                 return new Pair();
         }
     }
 
-    private Pair compareEachPair(List<People> groupSortedByAge) {
+    private Pair findFurthestPair(List<People> groupSortedByAge) {
+        return new Pair(groupSortedByAge.get(0), groupSortedByAge.get(groupSortedByAge.size()-1));
+    }
+
+    private Pair findClosestPair(List<People> groupSortedByAge) {
         long minDuration = Long.MAX_VALUE;
-        Pair pair = new Pair();
+        Pair closest = new Pair();
 
         for (int i = 0; i < groupSortedByAge.size() - 1; i++) {
-            People withEarlierBirthday = groupSortedByAge.get(i);
-            People withLaterBirthday = groupSortedByAge.get(i + 1);
-            long durationApart = Math.abs(withLaterBirthday.getBirthDate().getTime() - withEarlierBirthday.getBirthDate().getTime());
-            if (durationApart < minDuration) {
-                minDuration = durationApart;
-                pair.personB = withEarlierBirthday;
-                pair.personA = withLaterBirthday;
-                pair.durationApart = durationApart;
+            Pair pair = new Pair(groupSortedByAge.get(i), groupSortedByAge.get(i+1));
+            if (pair.getDurationApart() < minDuration) {
+                minDuration = pair.getDurationApart();
+                closest = pair;
             }
         }
-        return pair;
+        return closest;
     }
 
     public List<People> sortGroupByAge() {
-        if (groupOfPeople.size() == 0) return Collections.emptyList();
         groupOfPeople.sort(Comparator
                 .comparing(p -> p.getBirthDate().getTime(), Comparator.naturalOrder()));
         return List.copyOf(groupOfPeople);
