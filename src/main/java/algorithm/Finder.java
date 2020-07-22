@@ -14,32 +14,8 @@ public class Finder {
         if (groupOfPeople.size() < 2) return new Pair();
 
         List<People> groupSortedByAge = sortGroupByAge();
-        switch (findCondition) {
-            case Closest:
-                return findClosestPair(groupSortedByAge);
-            case Furthest:
-                return findFurthestPair(groupSortedByAge);
-            default:
-                return new Pair();
-        }
-    }
-
-    private Pair findFurthestPair(List<People> groupSortedByAge) {
-        return new Pair(groupSortedByAge.get(0), groupSortedByAge.get(groupSortedByAge.size()-1));
-    }
-
-    private Pair findClosestPair(List<People> groupSortedByAge) {
-        long minDuration = Long.MAX_VALUE;
-        Pair closest = new Pair();
-
-        for (int i = 0; i < groupSortedByAge.size() - 1; i++) {
-            Pair pair = new Pair(groupSortedByAge.get(i), groupSortedByAge.get(i+1));
-            if (pair.getDurationApart() < minDuration) {
-                minDuration = pair.getDurationApart();
-                closest = pair;
-            }
-        }
-        return closest;
+        SearchEngine engine = AlgoSupplier.supply(findCondition);
+        return engine.search(groupSortedByAge);
     }
 
     public List<People> sortGroupByAge() {
